@@ -11,41 +11,42 @@
 </body>
 </html>
 <?php
-$Found="no";
-function getRowById ($filename,$Orphan_ID)
+function getRowbysearch ($filename,$search,$indexsearch,$indexneeded)
 {
-        $userfile = fopen($filename,"r");
-        $ID = $Orphan_ID;                                   //hena bashoof anhy orphan 3ayz 23ml save llhagat el 2t3amltlo
-        $flag=0;
-        while(!feof ($userfile))
+    $userfile = fopen($filename,"r");
+    $ID = $search;                                   //hena bashoof anhy orphan 3ayz 23ml save llhagat el 2t3amltlo
+    $flag=0;
+    while(!feof ($userfile))
+    {
+        $Line = fgets($userfile);
+        $Arrayline = explode("~", $Line);
+        //echo $Arrayline[0]."<br>";
+        if($Arrayline[$indexsearch] ==  $ID)
         {
-            $Line = fgets($userfile);
-            $Arrayline = explode("~", $Line);
-            //echo $Arrayline[0]."<br>";
-            if($Arrayline[0] ==  $ID)
-            {
-                $Found=$Arrayline[1];                                             //return to the other function which will wrute the orphan needed
-                echo $Found."<br>";
-                $flag=1;
-                StoreRecord("DailyActy.txt.txt",$Found);
-                return $Found;
-            }
-        }
-        if($flag == 1)
-        {
-            echo"found";
-        }
-        else{
-        echo"NOT found";
+            $Found=$Arrayline[$indexneeded];                                             //return to the other function which will wrute the orphan needed
+            echo $Found."<br>";
+            $flag=1;
+            StoreRecord("DailyActy.txt.txt",$Found);
+            return $Found;
         }
     }
-    getRowByID("User.txt.txt","3");                                        //3 di hatkoon input hasab el usertype
-     function StoreRecord($filename,$Found)
-     {
-         $Daily=fopen($filename,"a+");
-         fwrite($Daily,$Found."~");
-         fclose($Daily);
-     }
+    if($flag == 1)
+    {
+        echo"found";
+    }
+    else{
+    echo"NOT found";
+    }
+}
+getRowBysearch("User.txt.txt","3","0","1");                                        //3 di hatkoon input hasab el usertype
+function StoreRecord($filename,$Found)
+{
+        $Daily=fopen($filename,"a+");
+        fwrite($Daily,$Found."~");
+        fclose($Daily);
+}
+ $Activitytype="football";                                                        //di hakhodha mn el user k input
+ getRowBysearch("Activities.txt.txt",$Activitytype,"2","0");
     //echo"<h2>BesMelleh</h2>";
 
 ?>
