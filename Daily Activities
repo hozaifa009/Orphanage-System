@@ -1,28 +1,51 @@
-SearchUser("User.txt.txt","3");
-     function SearchUser ($filename,$Orphan_ID)
-     {
-         $userfile = fopen($filename,"r");
-         $ID = $Orphan_ID;                                   
-         $flag=0;
-         while(!feof ($userfile))
-         {
-             $Line = fgets($userfile);
-             $Arrayline = explode("~", $Line);
-             //echo $Arrayline[0]."<br>";
-             if($Arrayline[0] ==  $ID)
-             {
-                $Found=$Arrayline[1];                    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<?php
+$Found="no";
+function SearchUser ($filename,$Orphan_ID)
+{
+        $userfile = fopen($filename,"r");
+        $ID = $Orphan_ID;                                   //hena bashoof anhy orphan 3ayz 23ml save llhagat el 2t3amltlo
+        $flag=0;
+        while(!feof ($userfile))
+        {
+            $Line = fgets($userfile);
+            $Arrayline = explode("~", $Line);
+            //echo $Arrayline[0]."<br>";
+            if($Arrayline[0] ==  $ID)
+            {
+                $Found=$Arrayline[1];                                             //return to the other function which will wrute the orphan needed
                 echo $Found."<br>";
                 $flag=1;
-                break;
-             }
-         }
-         if($flag == 1)
-         {
-             echo"found";
-         }
-         else{
-            echo"NOT found";
-         }
+                StoreRecord("DailyActy.txt.txt",$Found);
+                return $Found;
+            }
+        }
+        if($flag == 1)
+        {
+            echo"found";
+        }
+        else{
+        echo"NOT found";
+        }
+    }
+    SearchUser("User.txt.txt","3");                                        //3 di hatkoon input hasab el usertype
+     function StoreRecord($filename,$Found)
+     {
+         $Daily=fopen($filename,"a+");
+         fwrite($Daily,$Found."~");
+         fclose($Daily);
      }
-     
+    //echo"<h2>BesMelleh</h2>";
+
+?>
