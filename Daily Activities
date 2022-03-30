@@ -1,0 +1,28 @@
+SearchUser("User.txt.txt","3");
+     function SearchUser ($filename,$Orphan_ID)
+     {
+         $userfile = fopen($filename,"r");
+         $ID = $Orphan_ID;                                   
+         $flag=0;
+         while(!feof ($userfile))
+         {
+             $Line = fgets($userfile);
+             $Arrayline = explode("~", $Line);
+             //echo $Arrayline[0]."<br>";
+             if($Arrayline[0] ==  $ID)
+             {
+                $Found=$Arrayline[1];                    
+                echo $Found."<br>";
+                $flag=1;
+                break;
+             }
+         }
+         if($flag == 1)
+         {
+             echo"found";
+         }
+         else{
+            echo"NOT found";
+         }
+     }
+     
