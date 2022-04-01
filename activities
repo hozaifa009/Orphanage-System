@@ -1,0 +1,36 @@
+  
+  <html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>this is test </title>
+</head>
+<body>
+    <h1>
+        this is page 1
+    </h1>
+    <table border=1>
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>time</td>
+        </tr>
+    <?php
+        $myfile= fopen ("activities.txt","r+") or die("unable to open!");
+        while(!feof($myfile))
+        {
+            $line = fgets($myfile);
+            $arrayline=explode("~",$line);
+            for($i=0;$i<count($arrayline);$i++)
+            {
+                echo"<td>".$arrayline[$i]."</td>";
+            }
+            echo "<tr>"."</tr>";
+        }
+        fclose($myfile);
+    ?> 
+    </table>
+</body>
+</html></html>
