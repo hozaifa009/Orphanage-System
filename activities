@@ -1,4 +1,4 @@
-  
+                
   <html><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,28 +9,55 @@
 </head>
 <body>
     <h1>
-        this is page 1
+        daily activities
     </h1>
     <table border=1>
         <tr>
-            <td>id</td>
-            <td>name</td>
-            <td>time</td>
+        
         </tr>
-    <?php
-        $myfile= fopen ("activities.txt","r+") or die("unable to open!");
-        while(!feof($myfile))
-        {
-            $line = fgets($myfile);
-            $arrayline=explode("~",$line);
-            for($i=0;$i<count($arrayline);$i++)
-            {
-                echo"<td>".$arrayline[$i]."</td>";
-            }
-            echo "<tr>"."</tr>";
-        }
-        fclose($myfile);
-    ?> 
+        <?php
+       
+        include_once "function.php";
+        drawtablefromfile("dailyactivities.txt");
+        ?>
     </table>
+    <hr>
+    <h1>
+        activities
+    </h1>
+    <table border=1>
+        <tr>
+            <td>ACTIVITY Id</td>
+            <td>ACTIVITY Name</td>
+           
+        </tr>
+        <?php
+
+include_once "function.php";
+  drawtablefromfile("activities.txt")
+    ?>
+    </table>
+    <hr>
 </body>
 </html></html>
+
+function:
+<?php
+
+function drawtablefromfile($filename)
+{
+    $myfile1= fopen ($filename,"r+") or die("activities not founded");
+    while(!feof($myfile1))
+    {
+        echo "<tr>";
+        $line = fgets($myfile1);
+        $arrayline=explode("~",$line);
+        for($i=0;$i<count($arrayline);$i++)
+        {
+            echo"<td>".$arrayline[$i]."</td>";
+        }
+        echo "<tr>";
+    }
+    fclose($myfile1);
+}
+?>
