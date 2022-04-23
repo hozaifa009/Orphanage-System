@@ -101,3 +101,62 @@
     }
 
 ?>
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+<?php
+    class FileManeger
+    {
+        private $Separator;
+        private $Filename;
+        function set_Separator($Separator)
+        {
+            $this->Separator=$Separator;
+        }
+        function get_Separator()
+        {
+            return $this->Separator;
+        }
+        function set_Filename($Filename)
+        {
+            $this->Filename=$Filename;
+        }
+        function get_Filename()
+        {
+            return $this->Filename;
+        }
+        function Testing()
+        {
+            $this->Separator="~";
+            return $this->Separator;
+        }
+    }
+
+?>
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+<?php
+    include_once "FileManager.php";
+    include_once "DailyActivityDetails.php";
+    $object=new FileManeger();
+    $here=$object->Testing();
+    //echo "$here";
+    $obj=new ActivityDetails();
+    // $Arrayelgebto=$obj->SearchFor("Daily.txt.txt","~","1","Null","5");
+    // for($i=0;$i<5;$i++)
+    // {
+    //     echo "the array is     ".$Arrayelgebto[$i];
+    //     "<br>";
+    // }
+    // "<hr>";
+    $Arrayelgebto=$obj->SearchFor("Daily.txt.txt","~","2","Null");
+    echo "the array is     ";
+    for($i=0;$i<5;$i++)
+    {
+        echo $Arrayelgebto[$i]."_";
+    }
+    "<br>";
+    //$Arrayelgebto=$obj->SearchFor("Daily.txt.txt","~","1","Null","2");
+    //echo "$heree";
+?>
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
