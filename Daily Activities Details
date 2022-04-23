@@ -1,6 +1,7 @@
 <?php
 
     //echo "Besmeelah  " .$_REQUEST["ID"];
+   include_once "FileManager.php";
     class ActivityDetails
     {
         private $id;
@@ -8,46 +9,94 @@
         private $ActivityName;
         private $realtime;
         private $rating;
-
-        function set_Id($id)
+        //private $objectFILE=new FileManeger();
+        public function set_Id($id)
         {
             $this->id=$id;
         }
-        function get_Id()
+       public function get_Id()
         {
             return $this->id;
         }
-        function set_UserId($userid)
+        public function set_UserId($userid)
         {
             $this->userid=$userid;
         }
-        function get_UserId()
+        public function get_UserId()
         {
             return $this->userid;
         }
-        function set_ActivityName($ActivityName)
+        public function set_ActivityName($ActivityName)
         {
             $this->ActivityName=$ActivityName;
         }
-        function get_ActivityName()
+        public function get_ActivityName()
         {
             return $this->ActivityName;
         }
-        function set_realtime($realtime)
+        public function set_realtime($realtime)
         {
             $this->realtime=$realtime;
         }
-        function get_realtime()
+        public function get_realtime()
         {
             return $this->realtime;
         }
-        function set_rating($rating)
+        public function set_rating($rating)
         {
             $this->rating=$rating;
         }
-        function get_rating()
+        public function get_rating()
         {
             return $this->rating;
+        }
+        // public function __construct($objectFILE) 
+        // {
+        //     $this->objectFILE = new FileManeger();
+        //     $this->objectFILE->Filename="Activties.txt.txt";
+        //     $this->objectFILE->Separator="~";
+        // }
+        public function SearchFor($FileName,$Sperator,$Find,$GiveMe)
+        {
+            $z=0;
+            $Myfile=fopen($FileName,"r+");
+            while(!feof($Myfile))
+            {
+                $Line=fgets($Myfile);
+                $Array=explode($Sperator,$Line);
+                // for($i=0;$i<count($Array);$i++)
+                // {
+                //     if($Array[$i]==$Find)
+                //     {
+                //         $GiveMe=$Array[0];
+                //         break;
+                //     }
+                // }
+                for($i=0;$i<count($Array);$i++)
+                {
+                    if($Array[$i]==$Find)
+                    {
+                        for($k=0;$k<count($Array);$k++)
+                        {
+                            
+                            echo "#   ".$Array[$k];
+                            $GiveMe[$k]=$Array[$k];
+                            echo "<br>";
+                            echo "%%   ".$GiveMe[$k];
+                            echo "<br>";
+                            echo "<br>";
+                            
+                        }
+                        break;
+                    }
+                }
+            }
+            return $GiveMe;
+        }
+        public function test2() 
+        {
+            $this->id=1;
+            return $this->id;
         }
     }
 
