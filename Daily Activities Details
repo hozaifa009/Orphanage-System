@@ -1,0 +1,54 @@
+<?php
+
+    //echo "Besmeelah  " .$_REQUEST["ID"];
+    class ActivityDetails
+    {
+        private $id;
+        private $userid;
+        private $ActivityName;
+        private $realtime;
+        private $rating;
+
+        function set_Id($id)
+        {
+            $this->id=$id;
+        }
+        function get_Id()
+        {
+            return $this->id;
+        }
+        function set_UserId($userid)
+        {
+            $this->userid=$userid;
+        }
+        function get_UserId()
+        {
+            return $this->userid;
+        }
+        function set_ActivityName($ActivityName)
+        {
+            $this->ActivityName=$ActivityName;
+        }
+        function get_ActivityName()
+        {
+            return $this->ActivityName;
+        }
+        function set_realtime($realtime)
+        {
+            $this->realtime=$realtime;
+        }
+        function get_realtime()
+        {
+            return $this->realtime;
+        }
+        function set_rating($rating)
+        {
+            $this->rating=$rating;
+        }
+        function get_rating()
+        {
+            return $this->rating;
+        }
+    }
+
+?>
