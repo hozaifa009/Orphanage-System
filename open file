@@ -1,0 +1,10 @@
+<?php
+$myfile = fopen("usertype.txt", "w") or die("Unable to open file!");
+$txt = "User Types:\n";
+fwrite($myfile, $txt);
+fwrite($myfile, $txt);
+while(!feof($myfile)) 
+{
+    echo fgets($myfile) . "<br>";
+}
+fclose($myfile);
