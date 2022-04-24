@@ -29,3 +29,6 @@
     color: #fff;
     text-align: center;
   }
+  .box .input-box{
+    position: relative;
+  }
