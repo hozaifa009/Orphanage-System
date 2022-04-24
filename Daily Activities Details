@@ -1,15 +1,16 @@
 <?php
 
+    include_once "FileManager.php";
     //echo "Besmeelah  " .$_REQUEST["ID"];
-   include_once "FileManager.php";
     class ActivityDetails
     {
         private $id;
         private $userid;
-        private $ActivityName;
+        private $ActivityID;
         private $realtime;
+        private $Donetime;
         private $rating;
-        //private $objectFILE=new FileManeger();
+        private $objectFILE;
         public function set_Id($id)
         {
             $this->id=$id;
@@ -26,13 +27,13 @@
         {
             return $this->userid;
         }
-        public function set_ActivityName($ActivityName)
+        public function set_ActivityID($ActivityID)
         {
-            $this->ActivityName=$ActivityName;
+            $this->ActivityID=$ActivityID;
         }
-        public function get_ActivityName()
+        public function get_ActivityID()
         {
-            return $this->ActivityName;
+            return $this->ActivityID;
         }
         public function set_realtime($realtime)
         {
@@ -50,48 +51,51 @@
         {
             return $this->rating;
         }
-        // public function __construct($objectFILE) 
-        // {
-        //     $this->objectFILE = new FileManeger();
-        //     $this->objectFILE->Filename="Activties.txt.txt";
-        //     $this->objectFILE->Separator="~";
-        // }
-        public function SearchFor($FileName,$Sperator,$Find,$GiveMe)
+        public function __construct() 
         {
-            $z=0;
-            $Myfile=fopen($FileName,"r+");
+            $this->objectFILE = new FileManeger();
+            $this->objectFILE->set_Filename("Daily.txt");
+            $this->objectFILE->set_Separator("~");
+        }
+        public function Define()
+        {
+            //$this->id= $_REQUEST["ID"];    //hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+            $this->id= 1;
+            $SearchedLine=$this->objectFILE->SearchFor($this->id);
+            $Array=explode("~",$SearchedLine);
+            for($i=0;$i<count($Array);$i++)
+            {
+                if($i==1)
+                {
+                    $this->userid=$Array[$i];
+                }
+                if($i==4)
+                {
+                    $this->realtime=$Array[$i];
+                }
+                if($i == 2)
+                {
+                    $this->objectFILE->set_Filename("Activities.txt");
+                    $neededid=$this->objectFILE->getIDbyName($Array[$i],0);
+                    $this->ActivityID=$neededid;
+                }
+            }
+            return $this->realtime;
+        }
+        public function StoreRecord()
+        {
+            $this->objectFILE->set_Filename("Details.txt");
+            $record=$this->id."~".$this->userid."~".$this->ActivityID."~".$this->realtime;
+            $this->objectFILE->Write($record);
+        }
+        public function ToDraw()
+        {
+            $Myfile=fopen("Details.php","r+");
             while(!feof($Myfile))
             {
                 $Line=fgets($Myfile);
-                $Array=explode($Sperator,$Line);
-                // for($i=0;$i<count($Array);$i++)
-                // {
-                //     if($Array[$i]==$Find)
-                //     {
-                //         $GiveMe=$Array[0];
-                //         break;
-                //     }
-                // }
-                for($i=0;$i<count($Array);$i++)
-                {
-                    if($Array[$i]==$Find)
-                    {
-                        for($k=0;$k<count($Array);$k++)
-                        {
-                            
-                            echo "#   ".$Array[$k];
-                            $GiveMe[$k]=$Array[$k];
-                            echo "<br>";
-                            echo "%%   ".$GiveMe[$k];
-                            echo "<br>";
-                            echo "<br>";
-                            
-                        }
-                        break;
-                    }
-                }
+                
             }
-            return $GiveMe;
         }
         public function test2() 
         {
@@ -101,62 +105,3 @@
     }
 
 ?>
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-<?php
-    class FileManeger
-    {
-        private $Separator;
-        private $Filename;
-        function set_Separator($Separator)
-        {
-            $this->Separator=$Separator;
-        }
-        function get_Separator()
-        {
-            return $this->Separator;
-        }
-        function set_Filename($Filename)
-        {
-            $this->Filename=$Filename;
-        }
-        function get_Filename()
-        {
-            return $this->Filename;
-        }
-        function Testing()
-        {
-            $this->Separator="~";
-            return $this->Separator;
-        }
-    }
-
-?>
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-<?php
-    include_once "FileManager.php";
-    include_once "DailyActivityDetails.php";
-    $object=new FileManeger();
-    $here=$object->Testing();
-    //echo "$here";
-    $obj=new ActivityDetails();
-    // $Arrayelgebto=$obj->SearchFor("Daily.txt.txt","~","1","Null","5");
-    // for($i=0;$i<5;$i++)
-    // {
-    //     echo "the array is     ".$Arrayelgebto[$i];
-    //     "<br>";
-    // }
-    // "<hr>";
-    $Arrayelgebto=$obj->SearchFor("Daily.txt.txt","~","2","Null");
-    echo "the array is     ";
-    for($i=0;$i<5;$i++)
-    {
-        echo $Arrayelgebto[$i]."_";
-    }
-    "<br>";
-    //$Arrayelgebto=$obj->SearchFor("Daily.txt.txt","~","1","Null","2");
-    //echo "$heree";
-?>
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
