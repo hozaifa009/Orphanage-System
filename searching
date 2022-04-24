@@ -1,0 +1,16 @@
+public function Search($index)
+        {
+            $myfile=fopen($this->usertype,"r+");
+            while(!feof($myfile))
+            {
+                $Line=fgets($myfile);
+                $Array=explode("~",$Line);
+                for($i=0;$i<count($Array);$i++)
+                {
+                    if($Array[$i]==$index)
+                    {
+                        return $Line;
+                    }
+                }
+            }
+        }
