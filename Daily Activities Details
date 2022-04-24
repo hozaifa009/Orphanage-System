@@ -1,8 +1,8 @@
 <?php
 
     include_once "FileManager.php";
-    //echo "Besmeelah  " .$_REQUEST["ID"];
-    class ActivityDetails
+    include_once "View.php";
+    class ActivityDetails 
     {
         private $id;
         private $userid;
@@ -57,10 +57,9 @@
             $this->objectFILE->set_Filename("Daily.txt");
             $this->objectFILE->set_Separator("~");
         }
-        public function Define()
+        public function Define($orphan)
         {
-            //$this->id= $_REQUEST["ID"];    //hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-            $this->id= 1;
+            $this->id= $orphan;
             $SearchedLine=$this->objectFILE->SearchFor($this->id);
             $Array=explode("~",$SearchedLine);
             for($i=0;$i<count($Array);$i++)
@@ -80,7 +79,7 @@
                     $this->ActivityID=$neededid;
                 }
             }
-            return $this->realtime;
+            return $this->id;
         }
         public function StoreRecord()
         {
@@ -90,12 +89,14 @@
         }
         public function ToDraw()
         {
-            $Myfile=fopen("Details.php","r+");
+            echo "<table border=1>";
+            $Myfile=fopen("Details.txt","r+");
             while(!feof($Myfile))
             {
                 $Line=fgets($Myfile);
-                
+                DrawTable($Line);
             }
+            echo "</table>";
         }
         public function test2() 
         {
@@ -105,3 +106,205 @@
     }
 
 ?>
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+<?php
+    class FileManeger
+    {
+        private $Separator;
+        private $Filename;
+        function set_Separator($Separator)
+        {
+            $this->Separator=$Separator;
+        }
+        function get_Separator()
+        {
+            return $this->Separator;
+        }
+        function set_Filename($Filename)
+        {
+            $this->Filename=$Filename;
+        }
+        function get_Filename()
+        {
+            return $this->Filename;
+        }
+        public function SearchFor($Find)
+        {
+            $Myfile=fopen($this->Filename,"r+");
+            while(!feof($Myfile))
+            {
+                $Line=fgets($Myfile);
+                $Array=explode($this->Separator,$Line);
+                for($i=0;$i<count($Array);$i++)
+                {
+                    if($Array[$i]==$Find)
+                    {
+                        return $Line;
+                    }
+                }
+            }
+        }
+        public function getIDbyName($Find,$indexreturn)
+        {
+            $Myfile=fopen($this->Filename,"r+");
+            while(!feof($Myfile))
+            {
+                $Line=fgets($Myfile);
+                $Array=explode($this->Separator,$Line);
+                for($i=0;$i<count($Array);$i++)
+                {
+                    if($Array[$i]==$Find)
+                    {
+                        $get=$Array[$indexreturn];
+                        return $get;
+                    }
+                }
+            }
+        }
+        public function Write($record)
+        {
+            $Myfile=fopen($this->Filename,"a+");
+            fwrite($Myfile,$record);
+            fclose($Myfile);
+        }
+        function Testing()
+        {
+            $this->Separator="~";
+            return $this->Separator;
+        }
+    }
+
+?>
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <table border="1">
+        <tr>
+        <td>id</td>
+        <td>name</td>
+        <td>here</td>
+        </tr> -->
+    <?php
+
+        function DrawTable($Line)
+        {
+            // echo "<table border=1>";
+            // echo "<h2>"."Besmellah"."</h2>";
+            // $Myfile=fopen($filename,"r+");
+            // while(!feof($Myfile))
+            // {
+            //     $Line=fgets($Myfile);
+                echo "<tr>";
+                $Array=explode("~",$Line);
+                for($i=0;$i<count($Array);$i++)
+                {
+                    echo "<td>". $Array[$i]."</td>";
+                }
+                echo "</tr>";
+            // }
+            // echo "</table>";
+
+        }
+    ?>
+    <!-- </table> -->
+</body>
+</html>
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+</head>
+    <form action="Test.php" method="GET">
+    Orphan_ID <input type="text"  name="nameofneed" >
+    <br>
+	<input type="submit" />
+    </form>
+    <?php
+    
+
+    ?>
+</html>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+<?php
+    include_once "FileManager.php";
+    include_once "DailyActivityDetails.php";
+    // $here=$object->Testing();
+    //echo "$here";
+    $object=new FileManeger();
+    $obj=new ActivityDetails();
+    $orphan=$_GET["nameofneed"];
+    $cout=$obj->Define($orphan);
+    $obj->StoreRecord();
+    $obj->ToDraw();
+    // $Arrayelgebto=$obj->SearchFor("Daily.txt.txt","~","1","Null","5");
+    // for($i=0;$i<5;$i++)
+    // {
+    //     echo "the array is     ".$Arrayelgebto[$i];
+    //     "<br>";
+    // }
+    // "<hr>";
+    // $Line=$obj->SearchFor("Daily.txt.txt","~","2");
+    // echo "the array is     ";
+    // $Arrayelgebto=explode("~",$Line);
+    // for($i=0;$i<count($Arrayelgebto);$i++)
+    // {
+    //     echo $Arrayelgebto[$i]."~";
+    // }
+    // "<br>";
+    // $Line=$object->SearchFor("Daily.txt.txt","~","2");
+    // echo "the array is     ";
+    // $Arrayelgebto=explode("~",$Line);
+    // for($i=0;$i<count($Arrayelgebto);$i++)
+    // {
+    //     if($i != 3)
+    //     {
+    //         $record=$Arrayelgebto[$i];
+    //         $object->WriteStoreRecord($record);
+    //         echo "~";
+    //     }
+    // }
+    // echo"hr";
+    // $Line2=$object->SearchFor("Daily.txt","~",$Arrayelgebto[2]);
+    // $Arrayelgebto2=explode("~",$Line);
+    // $object->WriteStoreRecord($Arrayelgebto[0]);
+
+    // $cout=$obj->Define();
+    // echo "el ID hwa    ". $cout;
+    // $cout=$obj->StoreRecord();
+    
+    // $cout=$obj->ToDraw();
+    
+    // for($i=0;$i<3;$i++)
+    // {
+    //     if($i != 3)
+    //     {
+    //         $record=$Arrayelgebto[$i];
+    //         echo $record."~";
+    //     }
+    // }
+    // $Arrayelgebto=explode("~",$cout);
+    // for($i=0;$i<count($Arrayelgebto);$i++)
+    // {
+    //     if($i != 3)
+    //     {
+    //         $record=$Arrayelgebto[$i];
+    //         $object->WriteStoreRecord($record);
+    //         echo "~";
+    //     }
+    // }
+
+    //$Arrayelgebto=$obj->SearchFor("Daily.txt.txt","~","1","Null","2");
+    //echo "$heree";
+?>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
