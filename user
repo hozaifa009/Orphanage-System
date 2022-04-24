@@ -61,7 +61,7 @@
     color: #03a9f4;
     font-size: 12px;
   }
-  .box input[type="Login"]{
+  .box input[type="submit"]{
     background: transparent;
     border: none;
     outline: none;
@@ -71,6 +71,31 @@
     border-radius: 5px;
     cursor:pointer;
   }
-  .box input[type="Login"]:hover{
+  .box input[type="submit"]:hover{
     background-color: #3067b9;
   }
+
+  </style>
+  <title>Document</title>
+</head>
+<body>
+  <div class="box">
+    <h2>Login</h2>
+    <form action="doLogin.php">
+      <div class="input-box">
+        <input type="text" name="username"  autocomplete="off" required>
+        <label for="">Username</label>
+      </div>
+      <div class="input-box">
+        <input type="email" name="email"  autocomplete="off" required>
+        <label for="">Email</label>
+      </div>
+      <div class="input-box">
+        <input type="password" name="password"  autocomplete="off" required>
+        <label for="">Password</label>
+      </div>
+        <input type="Submit" value="Submit">
+    </form>
+  </div>
+</body>
+</html>
