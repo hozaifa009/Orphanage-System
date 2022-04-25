@@ -1,0 +1,183 @@
+<?php
+  class Functions
+  { 
+    private $ID;
+    private $Function_Name;
+    private $FileManagerObj;
+    function __construct()
+    {
+      $this->FileManagerObj=new FileManager();
+      $this->FileManagerObj->setFilename("Menu.txt");
+      $this->FileManagerObj->setSeparator("~");
+    }
+    function StoreFunction($FileManagerObj)
+    {
+      $this->setID($FileManagerObj->getLastId()+1);
+      $record= $this->getID().$FileManagerObj->getSeparator().$this->getFunction_Name();
+      $FileManagerObj->StoreRecord($record);
+    }
+    function ListAllFunctions()
+    {
+
+      $MyArray=array();
+      $myfile = fopen($this->getFileManagerObj()->getFilename(),"r+")or die("Unable to oen file!");
+    
+      $i=0;
+
+      while(!feof($myfile))
+      {
+        $line=fgets($myfile);
+        $Arrayline=explode($this->getFileManagerObj()->getSeparator(),$line);
+
+       if($Arrayline[0]!="")
+       { 
+         $MyArray[$i]= $this->GetFunctionByID($Arrayline[0]);
+         $i++;
+       }
+
+      }
+    
+      fclose($myfile);
+      return $MyArray;
+    }
+    function GetFunctionByID($id)
+    {
+      $r=new Functions();
+      $record=$this->getFileManagerObj()->getRowById($id);
+      $ArrayLine = explode($this->getFileManagerObj()->getSeparator(), $record);
+      
+      if($ArrayLine[0]!="")
+      { 
+        $r->setID($ArrayLine[0]);
+      }
+
+      if($ArrayLine[1]!="")
+      {
+        $r->setFunction_Name($ArrayLine[1]);
+      }
+
+      return $r;
+    }
+    function getID() 
+    {
+		  return $this->ID;
+	  }
+	  function setID($ID): self 
+    {
+		  $this->ID = $ID;
+		  return $this;
+	  }
+	  function getFunction_Name() 
+    {
+		  return $this->Function_Name;
+	  }
+	  function setFunction_Name($Function_Name): self 
+    {
+		  $this->Function_Name = $Function_Name;
+		  return $this;
+	  }
+	 function getFileManagerObj() 
+   {
+	   return $this->FileManagerObj;
+	 }
+  	function setFileManagerObj($FileManagerObj): self 
+   {
+	  	$this->FileManagerObj = $FileManagerObj;
+		  return $this;
+	 }
+}
+  class FileManager
+  {
+    private $Filename;
+    private $Separator;
+    function StoreRecord($record)
+    {
+      $myfile=fopen($this->getFilename(),"a+");
+      fwrite($myfile,$record."\r\n");
+      fclose($myfile);
+    }
+    function getLastId()
+    {
+      if (!file_exists($this->getFilename()))
+      {
+        return 0;
+      }
+
+      $myfile = fopen($this->getFilename(), "r+") or die("Unable to open file!");
+      $LastId = 0;
+    
+      while (!feof($myfile)) 
+      {
+        $line = fgets($myfile);
+        $ArrayLine = explode($this->getSeparator(), $line);
+
+        if ($ArrayLine[0] != "") 
+        {
+          $LastId = $ArrayLine[0];
+        }
+      }
+
+     return $LastId;
+    }
+    function DrawTable()
+    {
+      $myfile = fopen($this->getFilename(),"r+")or die("Unable to oen file!");
+    
+      while(!feof($myfile))
+      {
+        $line=fgets($myfile);
+        echo"<tr>";
+        $Arrayline=explode("~",$line);
+
+        for($i=0;$i<count($Arrayline); $i++)
+        {
+          echo "<td>".$Arrayline[$i]."</td>";
+        }
+       
+        echo"</tr>";
+      }
+    
+      fclose($myfile);
+    }
+    function getRowById($Id)
+    {
+      if (!file_exists($this->getFilename()))
+      {
+        return 0;
+      }
+
+      $myfile = fopen($this->getFilename(), "r+") or die("Unable to open file!");
+    
+      while (!feof($myfile)) 
+      {
+        $line = fgets($myfile);
+        $ArrayLine = explode($this->getSeparator(), $line);
+
+        if ($ArrayLine[0] == $Id) 
+        {
+          return $line;
+        }
+      }
+
+      return false;
+    }
+   	function getFilename() 
+    {
+		  return $this->Filename;
+	  }
+	  function setFilename($Filename): self 
+    {
+		  $this->Filename = $Filename;
+		  return $this;
+	  }
+	  function getSeparator() 
+    {
+		  return $this->Separator;
+	  }
+	  function setSeparator($Separator): self
+    {
+		  $this->Separator = $Separator;
+		  return $this;
+	  }
+  }
+?>
