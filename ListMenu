@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Menu:</h1>
+    <table border=1>
+        <tr>
+            <td>ID</td>
+            <td>Function_Name</td>
+        </tr>
+    <?php
+
+      include_once "Common_Functions.php";
+      $obj=new Functions();
+      $Array=array();
+      $Array= $obj->ListAllFunctions();
+
+      for($i=0;$i<count($Array);$i++)
+      { echo "<tr>";
+        echo "<td>".$Array[$i]->getID()."</td>"."<td>".$Array[$i]->getFunction_Name()."</td>";
+        echo "</tr>";
+      }
+    ?>
+    <tr>
+       <td>
+          <a href="Addtomenu.html">Add Function</a>
+       </td>
+       <td>
+        <a href="UpdateRecord.html">Update Function</a>
+       </td>
+    </tr>
+    </table>
+</body>
+</html>
