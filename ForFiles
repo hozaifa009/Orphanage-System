@@ -1,0 +1,68 @@
+<?php
+    class FileManeger
+    {
+        private $Separator;
+        private $Filename;
+        function set_Separator($Separator)
+        {
+            $this->Separator=$Separator;
+        }
+        function get_Separator()
+        {
+            return $this->Separator;
+        }
+        function set_Filename($Filename)
+        {
+            $this->Filename=$Filename;
+        }
+        function get_Filename()
+        {
+            return $this->Filename;
+        }
+        public function SearchFor($Find)
+        {
+            $Myfile=fopen($this->Filename,"r+");
+            while(!feof($Myfile))
+            {
+                $Line=fgets($Myfile);
+                $Array=explode($this->Separator,$Line);
+                for($i=0;$i<count($Array);$i++)
+                {
+                    if($Array[$i]==$Find)
+                    {
+                        return $Line;
+                    }
+                }
+            }
+        }
+        public function getIDbyName($Find,$indexreturn)
+        {
+            $Myfile=fopen($this->Filename,"r+");
+            while(!feof($Myfile))
+            {
+                $Line=fgets($Myfile);
+                $Array=explode($this->Separator,$Line);
+                for($i=0;$i<count($Array);$i++)
+                {
+                    if($Array[$i]==$Find)
+                    {
+                        $get=$Array[$indexreturn];
+                        return $get;
+                    }
+                }
+            }
+        }
+        public function Write($record)
+        {
+            $Myfile=fopen($this->Filename,"a+");
+            fwrite($Myfile,$record);
+            fclose($Myfile);
+        }
+        function Testing()
+        {
+            $this->Separator="~";
+            return $this->Separator;
+        }
+    }
+
+?>
