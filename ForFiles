@@ -35,6 +35,25 @@
                 }
             }
         }
+        public function SearchFor2($Find)
+        {
+            $z=0;
+            $Myfile=fopen($this->Filename,"r+");
+            while(!feof($Myfile))
+            {
+                $Line=fgets($Myfile);
+                $Array=explode($this->Separator,$Line);
+                for($i=0;$i<count($Array);$i++)
+                {
+                    if($Array[$i]==$Find)
+                    {
+                        $Lines[$z]=$Line;
+                        $z++;
+                    }
+                }
+            }
+            return $Lines;
+        }
         public function getIDbyName($Find,$indexreturn)
         {
             $Myfile=fopen($this->Filename,"r+");
@@ -52,16 +71,30 @@
                 }
             }
         }
+        public function geteach($Find,$indexreturn)
+        {
+            $z=0;
+            $Myfile=fopen($this->Filename,"r+");
+            while(!feof($Myfile))
+            {
+                $Line=fgets($Myfile);
+                $Array=explode($this->Separator,$Line);
+                for($i=0;$i<count($Array);$i++)
+                {
+                    if($Array[$i]==$Find)
+                    {
+                        $get[$z]=$Array[$indexreturn];
+                        $z++;
+                    }
+                }
+            }
+            return $get;
+        }
         public function Write($record)
         {
             $Myfile=fopen($this->Filename,"a+");
             fwrite($Myfile,$record);
             fclose($Myfile);
-        }
-        function Testing()
-        {
-            $this->Separator="~";
-            return $this->Separator;
         }
     }
 
