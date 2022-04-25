@@ -1,8 +1,9 @@
 <?php
 
     include_once "FileManager.php";
+    include_once "habiba.php";
     include_once "View.php";
-    class ActivityDetails 
+    class ActivityDetails extends FileManeger
     {
         private $id;
         private $userid;
@@ -74,25 +75,22 @@
             $this->objectFILE->set_Filename("Daily.txt");
             $this->objectFILE->set_Separator("~");
         }
-        public function Define($orphan)
+        public function Define($SearchedLine)
         {
-            $this->objectFILE->set_Filename("Daily.txt");
-            $this->id= $orphan;
-            $SearchedLine=$this->objectFILE->SearchFor($this->id);
             $Array=explode("~",$SearchedLine);
             for($i=0;$i<count($Array);$i++)
             {
-                if($i==1)
+                if($i==0)
                 {
                     $this->userid=$Array[$i];
                 }
-                if($i == 2)
+                if($i == 1)
                 {
                     $this->objectFILE->set_Filename("Activities.txt");
-                    $neededid=$this->objectFILE->getIDbyName($Array[$i],0);
+                    $neededid=$this->objectFILE->getIDbyName($Array[$i],1);
                     $this->ActivityID=$neededid;
                 }
-                if($i==4)
+                if($i==3)
                 {
                     $this->realtime=$Array[$i];
                 }
@@ -101,34 +99,56 @@
                     $this->Group=$Array[$i];
                 }
             }
-            return $SearchedLine;
+            $record=$this->id."~".$this->userid."~".$this->ActivityID."~".$this->realtime."~".$this->Group;
+            return $record;
         }
-        public function StoreRecord()
+        public function StoreRecord($givenid)
         {
             $this->objectFILE->set_Filename("Details.txt");
+            $this->id=$givenid;
             $record=$this->id."~".$this->userid."~".$this->ActivityID."~".$this->realtime."~".$this->Group;
-            $this->objectFILE->Write($record);
+            $this->objectFILE->Write($record."\r\n");
+            return $record;
+        }
+        public function forgrouping($group)
+        {
+            $this->objectFILE->set_Filename("Orphan.txt");
+            $get=$this->objectFILE->geteach($group,"0");
+            return $get;
         }
         public function StoreAllDetailActivities()
         {
-            $Myfile=fopen("Daily.txt","r+");
-            $i=0;
-            while(!feof($Myfile))
+            $this->objectFILE->set_Filename("Daily.txt");
+            $Array[0]="A";
+            $Array[1]="B";
+            $Array[2]="C";
+            for($k=0;$k<count($Array);$k++)
             {
-                $i++;
-                $Line=fgets($Myfile);
-                if($i != 1)
+                $group=$Array[$k];
+                $MyChildren=$this->forgrouping($group);
+                $this->objectFILE->set_Filename("Daily.txt");
+                $Lines=$this->objectFILE->SearchFor2($group);
+                for($z=0;$z<count($Lines);$z++)
                 {
-                    $Array=explode("~",$Line);
-                    $this->Define($Array[0]);
-                    $this->StoreRecord();
+                    $Linetosearch=$Lines[$z];
+                    $this->Define($Linetosearch);
+                    for($i=0;$i<count($MyChildren);$i++)
+                    {
+                        $this->_id=$MyChildren[$i];
+                        $this->StoreRecord($MyChildren[$i]);
+                    }
                 }
             }
         }
-        public function AllDoneofGroup($Groupfrom)
+        public function whowilladd()
         {
-            $this->objectFILE->set_Filename("Details.txt");
-            $this->Group=$Groupfrom;
+            $TOKNOW=new Menutype;
+            $toknow=$TOKNOW->Myuseris();
+            return $toknow;
+        }
+        public function ADD()
+        {
+            
         }
         public function ToDraw()
         {
@@ -141,31 +161,108 @@
             }
             echo "</table>";
         }
-        public function test2() 
-        {
-            $this->id=1;
-            return $this->id;
-        }
     }
-
 ?>
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 <?php
     include_once "FileManager.php";
     include_once "DailyActivityDetails.php";
     include_once "View.php";
+    include_once "habiba.php";
     // $here=$object->Testing();
     //echo "$here";
     $object=new FileManeger();
     $objACT=new ActivityDetails();
     // $objACT->StoreAllDetailActivities();
-    $objACT->ToDraw();                                                   //neededdddddddddddddddddddddd
-    $group=$_REQUEST["GroupName"];
-    $time=$_REQUEST["Time"];
-    $rate=$_REQUEST["rate"];
-    echo $group."   ".$time."   ".$rate;
+    $objACT->ToDraw();
+    $out=$objACT->whowilladd();
+    echo "<br> <hr>".$out;
+    if($out == "Trainer")
+    {
+        $time=$_REQUEST["Time"];
+        $rate=$_REQUEST["rate"]."Stars";
+        echo $time. "   ".$rate;
+    }
+    // $object->set_Filename("Daily.txt");
+    // $object->set_Separator("~");                                                 //neededdddddddddddddddddddddd
+    // $Array[0]="A";
+    // $Array[1]="B";
+    // $Array[2]="C";
+    // $object->set_Filename("Daily.txt");
+    // for($k=0;$k<count($Array);$k++)
+    // {
+    //     $group=$Array[$k];
+    //     $MyChildren=$objACT->forgrouping($group);
+    //     $Lines=$object->SearchFor2($group);
+    //     for($z=0;$z<count($Lines);$z++)
+    //     {
+    //         $Linetosearch=$Lines[$z];
+    //         echo "<br>";
+    //         echo "Line is      ".$Linetosearch."<br>";
+    //         $record=$objACT->Define($Linetosearch);
+    //         echo "record      ".$record."<br>";
+    //         //$objACT->StoreAllforgroup($MyChildren);
+    //         for($i=0;$i<count($MyChildren);$i++)
+    //         {
+    //             $set_id=$MyChildren[$i];
+    //             echo "DA ELLLLLL IDDDDDDDDD     ".$set_id."<br>";
+    //             $record2=$objACT->StoreRecord($MyChildren[$i]);
+    //             echo "<hr>";
+    //             echo "elsaved     ".$record2."<br>";
+    //         }
+    //     }
+    // }
+    // $objACT->ToDraw(); 
+    // $object->set_Filename("Daily.txt");
+    // $object->set_Separator("~");
+    // $Lines=$object->SearchFor2("A");
+    // for($i=0;$i<count($Lines);$i++)
+    // {
+    //     echo "<br>";
+    //     echo $Lines[$i];
+    // }
+    // $group=$_REQUEST["GroupName"];
+    // $Array[0]="A";
+    // $Array[1]="B";
+    // $Array[2]="C";
+    // for($i=0;$i<count($Array);$i++)
+    // {
+    //     $group=$Array[$i];
+    //     $MyChildren=$objACT->forgrouping($group);
+    //     $MakeDetails=$objACT->Define($group);
+    //     $objACT->StoreAllforgroup($MyChildren);
+    // }
+    // for($i=0;$i<count($MyChildren);$i++)
+    // {
+    //     echo "/".$MyChildren[$i];
+    // }
+    // echo "<br>";
+    // $object->set_Filename("Activities.txt");
+    // $object->set_Separator("~");
+    // $here=$object->getIDbyName("Breakfast",1);
+    // echo $here;
+    // echo $group;
+    // echo "<hr>";
+    // $indexreturn=0;
+    // $Myfile=fopen("Orphan.txt","r+");
+    // while(!feof($Myfile))
+    // {
+    //     $Line=fgets($Myfile);
+    //     $Array=explode("~",$Line);
+    //     for($i=0;$i<count($Array);$i++)
+    //     {
+    //         echo "el gwa  ".$Array[$i];
+    //         echo "<br>";
+    //         echo "here   ->>>> ".$group;
+    //         if($Array[$i] == $group)
+    //         {
+    //             $get=$Array[$indexreturn];
+    //             echo "ggggggg";
+    //         }
+    //         echo "<hr>";
+    //     }
+    // }
     // $Myfile=fopen("Daily.txt","r+");
     // $i=0;
     // while(!feof($Myfile))
