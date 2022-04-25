@@ -1,7 +1,74 @@
 </head>
-    <form action="DailyActivityDetails.php" method="GET">
-    Orphan_ID <input type="text"  name="ID" >
+    <!-- <form action="Test.php" method="GET">
+    Orphan_ID <input type="text"  name="nameofneed" >
     <br>
 	<input type="submit" />
-    </form>
+    </form> -->
+<!--                        FOR GROUPPING,TIMMING,RATING                             -->
+
+<form action="Test.php" method="GET">
+   Group <input type="text"  name="GroupName" >
+        <br>
+        <hr>
+        <br>
+
+
+    Time_of_Breakfast <input type="time"  name="Time" >
+        <br>
+        <hr>
+        <br>
+
+
+     Rating <input type="text"  name="rate" >
+    <br>
+    <hr>
+    <br>
+	<input type="submit" >
+</form>
+    <?php
+    ?>
+</html>
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <table border="1">
+        <tr>
+        <td>id</td>
+        <td>name</td>
+        <td>here</td>
+        </tr> -->
+    <?php
+        // include_once "SearchDaily.php";
+        function DrawTable($Line)
+        {
+            echo "<tr>";
+            $Array=explode("~",$Line);
+            for($i=0;$i<count($Array);$i++)
+            {
+                echo "<td>". $Array[$i]."</td>";
+            }
+            echo "</tr>";
+        }
+        // function TogiveRequest()
+        // {
+        //     $thing=$_REQUEST["GroupName"];
+        //     return $thing;
+        // }
+    ?>
+    <tr>
+        <td>
+            <a href ="SearchDaily.php">Add Details</a>
+        </td>
+    </tr>
+    <!-- </table> -->
+</body>
 </html>
