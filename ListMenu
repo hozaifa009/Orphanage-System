@@ -12,6 +12,8 @@
         <tr>
             <td>ID</td>
             <td>Function_Name</td>
+            <td>Update</td>
+            <td>Delete</td>
         </tr>
     <?php
 
@@ -22,16 +24,15 @@
 
       for($i=0;$i<count($Array);$i++)
       { echo "<tr>";
-        echo "<td>".$Array[$i]->getID()."</td>"."<td>".$Array[$i]->getFunction_Name()."</td>";
+        echo "<td>".$Array[$i]->getID()."</td>"."<td><a href=UserTypeMenu.php?F_ID=".$Array[$i]->getID().">".$Array[$i]->getFunction_Name()."</a></td>".
+        "<td> <a href= UpdateRecord.html> Update Function</a> </td>".
+        "<td> <a href= DeleteRecord.php?ID=".$Array[$i]->getID()."> Delete Function</a> </td>";
         echo "</tr>";
       }
     ?>
     <tr>
        <td>
           <a href="Addtomenu.html">Add Function</a>
-       </td>
-       <td>
-        <a href="UpdateRecord.html">Update Function</a>
        </td>
     </tr>
     </table>
