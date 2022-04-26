@@ -1,0 +1,193 @@
+//file manager
+<?php
+class filemanager
+{
+    private $Separator;
+
+        private $Filename;
+
+        function set_Separator($Separator)
+
+        {
+
+            $this->Separator=$Separator;
+
+        }
+
+        function get_Separator()
+
+        {
+
+            return $this->Separator;
+
+        }
+
+        function set_Filename($Filename)
+
+        {
+
+            $this->Filename=$Filename;
+
+        }
+
+        function get_Filename()
+
+        {
+
+            return $this->Filename;
+
+        }
+function drawtablefromfile()
+{
+    $myfile1= fopen ($this->Filename,"r+") or die("activities not founded");
+    while(!feof($myfile1))
+    {
+        echo "<tr>";
+        $line = fgets($myfile1);
+        $arrayline=explode($this->Separator,$line);
+        for($i=0;$i<count($arrayline);$i++)
+        {
+            echo"<td>".$arrayline[$i]."</td>";
+        }
+        echo "<tr>";
+    }
+    fclose($myfile1);
+}
+function getlastid()
+{
+    if(!file_exists($this->Filename)){
+        return 0;
+    }
+    $myfile2= fopen ($this->Filename,"r+") or die("activities not founded");
+    $Lastid=0;
+    while(!feof($myfile2))
+    {
+        $line = fgets($myfile2);
+        $arrayline=explode($this->Separator,$line);
+    
+        if($arrayline[0]!="")
+        {
+            $Lastid=$arrayline[0];
+        }
+    }
+    return $Lastid;
+}
+function writeinfile()
+{
+    $myfile=fopen($this->Filename,"a+");
+    fwrite($myfile,$record."\r\n");
+    fclose($myfile);
+}
+}
+?> 
+//list activities
+  
+  <html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>this is test </title>
+</head>
+<body>
+    <h1>
+        activities
+    </h1>
+    <table border=1>
+        <tr>
+            <td>ACTIVITY Id</td>
+            <td>ACTIVITY Name</td>
+          
+        </tr>
+        <?php
+        //  echo "the activity name is ".$_REQUEST["Activity"];
+
+include_once "function.php";
+$obj=new filemanager();
+$obj->set_Filename("activities.txt");
+$obj->set_Separator("~");
+$sss=$obj-> get_Separator();
+$obj->drawtablefromfile($obj->get_Filename());
+echo "herere    ".$sss;
+//    echo "the activity name is ".$_REQUEST["Activity"];
+    ?>
+    <tr>
+    <td>
+    <a href="form.html">Add activity<a>
+    </td>
+</tr>
+    </table>
+
+    <hr>
+   
+</body>
+</html></html>
+//list activitiedailys
+                
+  <html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>this is test </title>
+</head>
+<body>
+    <h1>
+        daily activities
+    </h1>
+    <table border=1>
+        <tr>
+        
+        </tr>
+        <?php
+       
+        include_once "function.php";
+        $obj=new filemanager();
+$obj->set_Filename("");
+$obj->set_Separator("~");
+$sss=$obj-> get_Separator();
+$obj->drawtablefromfile($obj->get_Filename("dailyactivities.txt"));
+
+        // $opfile=new filemanager();
+        // $opfile.filename="activities.txt";
+        // $opfile.separator="~";
+        // $opfile.drawtablefromfile("dailyactivities.txt");
+        ?>
+    </table>
+  
+ 
+   
+
+</body>
+</html></html>
+//creat form
+<html>
+    <form action="Addactivity.php" method="post">
+       
+        Activity name <input type="text" name="Activity">
+        <br>
+        <input type="submit">
+    </form>
+</html>
+//add
+<?php
+include_once "function.php";
+
+$obj=new filemanager();
+$obj->set_Filename("activities.txt");
+$obj->set_Separator("~");
+$sss=$obj-> get_Separator();
+$id=$obj->getlastid($obj->get_Filename())+1;
+$_REQUEST["Activity"];
+
+$Act1=$_REQUEST["Activity"];
+
+$record=$id."~".$Act1;
+$myfile=fopen("activities.txt","a+");
+
+fwrite($myfile,$record."\r\n");
+fclose($myfile);
+header("location:listactivities.php")
+?>
