@@ -1,0 +1,9 @@
+<html>
+<body>
+<?php
+$file = fopen("kkk.txt","a");
+echo "file created successfully";
+fclose($file);
+?>
+</body>
+</html>
