@@ -1,0 +1,67 @@
+<?php
+include "Functions.php";
+$fileName="usersfsile.txt";
+function DeleteUser($id)
+{
+	global $fileName;
+	$r=getRowById($fileName,"~",$id);
+	DeleteRecord($fileName,$r);
+}
+function UpdateUser($id,$Email,$Password,$FullName,$DOB)
+{
+	global $fileName;
+	$record=$Username."~".$Email."~".$Password."~""\r\n";
+	$r=getRowById($fileName,"~",$id);
+
+	UpdateRecord($fileName,$record,$r);
+	
+}
+function getUserById($Id)
+{
+	global $fileName;
+	$Record=getRowById($fileName,"~",$Id);
+	
+	$ArrayResult=explode("~",$Record);
+    for ($i=0;$i<count($Array);$i++)
+    {
+        $Result["username"]=$ArrayResult[$i];
+        $Result["Email"]=$ArrayResult[$i];
+        $Result["password"]=$ArrayResult[$i];
+
+
+    }
+	return $Result;
+}
+
+function Login ($Username,$Email,$Password)
+{
+	global $fileName;
+	if (searchUser($fileName,$username,$Email."~".$Password))
+	{
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+function addUser($Email,$Password,$FullName,$DOB)
+{
+    global $fileName;
+    $id=getLastId($fileName,"~")+1;
+    $record=$Username."~".$Email."~".$Password."~";
+
+    if (searchUser($fileName,$Email)==FALSE)
+    {
+        StoreRecord( $fileName,$record);	
+          return true;
+    }
+   else
+   {
+	    return FALSE;
+    } 
+
+}
+
+
+
+?>
