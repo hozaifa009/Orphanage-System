@@ -61,7 +61,7 @@ function DrawTableFromFile()
 }
 function DeleteRecord($fileName,$record)
 {
-
+        $filename="signup.txt";
 	$contents = file_get_contents($fileName);
 	$contents = str_replace($record, '', $contents);
 	file_put_contents($fileName, $contents);
