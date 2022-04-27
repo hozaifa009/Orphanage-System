@@ -1,0 +1,20 @@
+<?php
+session_start();
+
+function check($filename,$Sperator)
+{
+    $Username=$_REQUEST["username"];
+    $Email=$_REQUEST["email"];
+    $Password=$_REQUEST["password"];
+    if($Email==$this->email&&$Email==$this->email&& $Password==$this->password)
+    {
+
+        echo "username and pass are ok";
+        
+    }
+    else{
+        header("location:lll.php");
+
+    }
+}
+?>
