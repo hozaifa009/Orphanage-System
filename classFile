@@ -1,6 +1,7 @@
+
 <?php
 
-class userfile extends FileManeger
+class userfile 
     {
         private $username;
         private $email;
@@ -44,4 +45,4 @@ class userfile extends FileManeger
             $this->FObj->Write($record."\r\n");
             return $record;
         }
-?>
+?> 
