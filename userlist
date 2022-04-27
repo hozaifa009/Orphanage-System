@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Types</title>
+</head>
+<body>
+<form action="AddUserType.php" method=POST>
+  User Type <input type="text" name="UserType">
+  <br>
+  <input type="submit">
+</form>
+
+    <h1>User Types:</h1>
+    <table border=1>
+        <tr>
+            <td>ID</td>
+            <td>Username</td>
+            <td>E-mail</td>
+        </tr>
+    <?php
+    include_once "myfunctions.php";
+    DrawTableFromFile("testusertype.txt");
+    //$this->FObj = new FileManager();
+    //$this->FObj->set_Filename("testusertype.txt");
+    //$this->FObj->set_Separator("~");
+    //$this->FObj->DrawTableFromFile($FObj->get_Filename());
+    ?>
+    <tr>
+        <td>
+            <a href="AddUserType.php">Add User<a>
+        </td>
+    </tr>
+</table>
+</html> 
