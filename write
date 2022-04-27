@@ -1,0 +1,19 @@
+ public function Write($record)
+        {
+            $Myfile=fopen($this->Filename,"a+");
+            fwrite($Myfile,$record);
+            fclose($Myfile);
+        }
+        
+        
+        /////////extract($_REQUEST);
+          $file=fopen("userfile.txt", "a");
+          fwrite($file, $username."~");
+          fwrite($file, $email."~");
+          fwrite($file, $password."~" . "\n");
+          fclose($file);
+        function Testing()
+        {
+            $Separator="~";
+            return $Separator;
+        }
