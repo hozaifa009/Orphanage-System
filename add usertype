@@ -1,0 +1,10 @@
+<?php
+include_once "myfunctions.php";
+$user=$_REQUEST["UserType"];
+//$id=getLastId("testusertype.txt","~")+1;
+$record="1~".$user;
+$myfile = fopen("testusertype.txt", "a+");
+fwrite($myfile, $record."\r\n");
+fclose($myfile);
+header("location:userlist.php");
+?> 
