@@ -1,0 +1,47 @@
+<?php
+
+class userfile extends FileManeger
+    {
+        private $username;
+        private $email;
+        private $password;
+        private $FObj;
+        public function __Construct() 
+        {
+            $this->FObj = new FileManeger();
+            $this->FObj->set_Filename("userfile.txt");
+            $this->FObj->set_Separator("~");
+        }
+        public function set_UserName($username)
+        {
+            $this->username=$username;
+        }
+       public function get_Id()
+        {
+            return $this->username;
+        }
+        public function set_E-mail($email)
+        {
+            $this->email=$email;
+        }
+        public function get_UserId()
+        {
+            return $this->email;
+        }
+        public function set_Password($password)
+        {
+            $this->password=$password;
+        }
+        public function get_ActivityID()
+        {
+            return $this->password;
+        }
+        public function StoreRecord($Suserame)
+        {
+            $this->FObj->set_Filename("userfile.txt");
+            $this->useranme=$Suserame;
+            $record=$username."~".$email."~".$password;
+            $this->FObj->Write($record."\r\n");
+            return $record;
+        }
+?>
