@@ -1,0 +1,72 @@
+<?php
+class FileManager
+{
+    private $filename;
+    private $Seperator;
+    function set_Separator($Separator)
+        {
+            $this->Separator=$Separator;
+        }
+        function get_Separator()
+        {
+            return $this->Separator;
+        }
+        function set_Filename($Filename)
+        {
+            $this->Filename=$Filename;
+        }
+        function get_Filename()
+        {
+            return $this->Filename;
+        }
+function getLastId($fileName,$Separator)
+{
+	
+	if ( !file_exists($fileName) ) 
+    {
+       return 0;
+    }		
+	
+	$myfile = fopen($fileName, "r+") or die("Unable to open file!");
+	$LastId=0;
+	while(!feof($myfile)) 
+	{
+  		$line= fgets($myfile);
+  		$ArrayLine=explode($Separator,$line);
+  		
+  		if ($ArrayLine[0]!="")
+  		{
+		$LastId=$ArrayLine[0];	
+		}
+  		
+	}
+	return $LastId;
+}
+function DrawTableFromFile()
+{
+    $myfile=fopen($filename, "r+");
+    while(!feof($myfile))
+    {
+        $line=fgets($myfile);
+        echo "<tr>";
+        $ArrayLine=explode("~",$line);
+        for($i=0;$i<count($ArrayLine);$i++)
+        {
+            echo "<td>".$ArrayLine[$i]."</td>";
+
+        }
+        echo "</tr>";
+    }
+    fclose($myfile);
+}
+function DeleteRecord($fileName,$record)
+{
+
+	$contents = file_get_contents($fileName);
+	$contents = str_replace($record, '', $contents);
+	file_put_contents($fileName, $contents);
+}
+
+}
+
+?>
