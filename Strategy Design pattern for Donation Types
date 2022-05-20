@@ -1,0 +1,126 @@
+// Interfaceeee
+<?php
+    interface IDonationUpdate
+    {
+        function DonateModifies($donation);
+    }
+?>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//CLASS THAT AGGREGATE INTERFACE
+
+<?php
+    include_once "IDonationUpdate.php";
+    class DonationTYPE
+    {
+        private $strategy;
+        // function __construct($strategy)
+        // {
+        //     $this->strategy=$strategy;
+        // }
+        function Update($strategy,$donation)
+        {
+            $this->strategy=$strategy;
+            $this->strategy->DonateModifies($donation);
+        }
+    }
+?>
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//CONCRETE CLASSES THAT IMPLEMENTS INTERFACE
+
+<?php
+    include_once "IDonationUpdate.php";
+    class ClothDonation implements IDonationUpdate
+    {
+        function  DonateModifies($donation)
+        {
+            echo"4 clothes";
+        }
+    }
+?>
+
+/////////////////////////////
+
+<?php
+    include_once "IDonationUpdate.php";
+    class MoneyDonation implements IDonationUpdate
+    {
+        function  DonateModifies($donation)
+        {
+            echo "Moneeyyyyyy";
+        }
+    }
+?>
+
+/////////////////////////
+
+<?php
+    include_once "IDonationUpdate.php";
+    class FoodDonation implements IDonationUpdate
+    {
+        function  DonateModifies($donation)
+        {
+            echo "   Fooodddddd  ";
+        }
+    }
+?>
+
+///////////////////////
+
+<?php
+    include_once "IDonationUpdate.php";
+    class ToysDonation implements IDonationUpdate
+    {
+        function  DonateModifies($donation)
+        {
+            echo "   Toysss  ";
+        }
+    }
+?>
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//CONTROLERR
+
+<?php
+    include_once "IDonationUpdate.php";
+    include_once "DonationTYPE.php";
+    include_once "ClothDonation.php";
+    include_once "FoodDonation.php";
+    include_once "ToysDonation.php";
+    include_once "MoneyDonation.php";
+
+    //$Donation= new DonationTYPE(new ClothDonation());
+    //$Donation= new DonationTYPE(new MoneyDonation()));
+    //$Donation= new DonationTYPE(new FoodDonation());
+    //$Donation= new DonationTYPE(new ToysDonation());
+
+
+    $Donation= new DonationTYPE();
+    $donate=0;
+    
+    echo "The donation is for   ";
+    $strategy = new ClothDonation();
+    $Donation->Update($strategy,$donate);
+    echo "<hr>   ";
+
+
+    echo "The donation is for     ";
+    $strategy = new MoneyDonation();
+    $Donation->Update($strategy,$donate);
+    echo "<hr>   ";
+
+
+    echo "The donation is for     ";
+    $strategy = new FoodDonation();
+    $Donation->Update($strategy,$donate);
+    echo "<hr>   ";
+
+
+    echo "The donation is for     ";
+    $strategy = new ToysDonation();
+    $Donation->Update($strategy,$donate);
+?>
