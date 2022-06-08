@@ -1,0 +1,177 @@
+<?php  
+  class FileManager
+  {
+    private $Filename;
+    private $Separator;
+    function StoreRecord($record)
+    {
+      $myfile=fopen($this->getFilename(),"a+");
+      fwrite($myfile,$record."\r\n");
+      fclose($myfile);
+    }
+    function getLastId()
+    {
+      if (!file_exists($this->getFilename()))
+      {
+        return 0;
+      }
+
+      $myfile = fopen($this->getFilename(), "r+") or die("Unable to open file!");
+      $LastId = 0;
+    
+      while (!feof($myfile))                                                             
+      {
+        $line = fgets($myfile);
+        $ArrayLine = explode($this->getSeparator(), $line);
+
+        if ($ArrayLine[0] != "") 
+        {
+          $LastId = $ArrayLine[0];
+        }
+      }
+
+     return $LastId;
+    }
+    function DrawTable()
+    {
+      $myfile = fopen($this->getFilename(),"r+")or die("Unable to open file!");
+    
+      while(!feof($myfile))
+      {
+        $line=fgets($myfile);
+        echo"<tr>";
+        $Arrayline=explode($this->getSeparator(),$line);
+
+        for($i=0;$i<count($Arrayline); $i++)
+        {
+          echo "<td>".$Arrayline[$i]."</td>";
+        }
+       
+        echo"</tr>";
+      }
+    
+      fclose($myfile);
+    }
+    function Count_File()
+    {
+      $Myfile = fopen($this->getFilename(),"r+");
+      $count = 0 ;
+
+      while(!feof($Myfile))
+      {
+        $line = fgets($Myfile);
+        $count++;
+      }
+
+      return $count;
+    }
+    function SearchFile($Search)
+    {
+     $myfile = fopen($this->getFilename(), "r+") or die("Unable to open file!");
+  
+     while (!feof($myfile)) 
+     {
+        $line = fgets($myfile);
+        $i = strpos($line, $Search);
+    
+        if ($i >= 0 && $i != null) 
+        {
+          return $line;
+        }
+     }
+
+     fclose($myfile);
+     return false;
+    }
+    function getIDbyName($Find,$indexreturn)
+    {
+      $Myfile=fopen($this->getFilename(),"r+");
+      
+       while(!feof($Myfile))
+       {
+         $Line=fgets($Myfile);
+         $Array=explode($this->getSeparator(),$Line);
+         $Array[1]=substr($Array[1],0,strlen($Array[1])-2);
+       
+          if($Array[1]==$Find)
+          {
+            $get=$Array[$indexreturn];
+            return $get;
+          }
+        }
+    }
+    function getRowById($Id)
+    {
+      if (!file_exists($this->getFilename()))
+      {
+        return 0;
+      }
+
+      $myfile = fopen($this->getFilename(), "r+") or die("Unable to open file!");
+    
+      while (!feof($myfile)) 
+      {
+        $line = fgets($myfile);
+        $ArrayLine = explode($this->getSeparator(), $line);
+
+        if ($ArrayLine[0] == $Id) 
+        {
+          return $line;
+        }
+      }
+
+      return false;
+    }
+    function Search_Content($Line,$F_ID)
+    {
+      $Array=explode($this->getSeparator(),$Line);
+
+      for($i=1;$i<Count($Array);$i++)
+      {
+        $Array[$i]=substr($Array[$i],0,strlen($Array[$i])-2);
+       
+        if($F_ID == $Array[$i])
+        {
+          return true;
+        }
+      }
+
+      return false;
+    }
+    function DeleteRecord($record)
+    {
+      $contents = file_get_contents($this->getFilename());
+      $contents = str_replace($record,'', $contents);
+      file_put_contents($this->getFilename(), $contents);
+    }
+    function ListAll()
+    {
+      $myfile = fopen($this->getFilename(), "r+");
+      $i = 0;
+      while (!feof($myfile))
+      {
+        $line[$i] = fgets($myfile);
+        $i++;
+      }
+      return $line;
+    }
+   	function getFilename() 
+    {
+		  return $this->Filename;
+	  }
+	  function setFilename($Filename): self 
+    {
+		  $this->Filename = $Filename;
+		  return $this;
+	  }
+	  function getSeparator() 
+    {
+		  return $this->Separator;
+	  }
+	  function setSeparator($Separator): self
+    {
+		  $this->Separator = $Separator;
+		  return $this;
+	  }
+  }
+?>
