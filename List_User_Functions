@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Functions:</h1>
+    <table border=1>
+        <tr>
+            <td>Function_Name</td>
+        </tr>
+    <?php
+
+       include_once "UserFunctions.php";
+
+       $Myfile=fopen("userfile.txt","r+");
+
+       while(!feof($Myfile))
+       {
+           $line=fgets($Myfile);
+           $X=explode("~",$line);
+           $User_ID=$X[2];
+       }
+
+       $Obj = new UserFunctions();
+       
+       $Array=array();
+
+       $Array = $Obj->List_Functions($User_ID);
+      
+       for($i=0;$i<count($Array);$i++)
+       {
+         echo "<tr>";
+         
+         if($Array[$i]=="Assign Functions")
+         {
+            echo "<td> <a href=Assign_Functions.html".">$Array[$i]</a></td>";
+         }
+         else
+         {
+            echo "<td>".$Array[$i]."</td>";
+         }
+         echo "</tr>";
+       }
+    ?>
+    </table>
+</body>
+</html>
